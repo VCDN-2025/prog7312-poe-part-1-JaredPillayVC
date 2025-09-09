@@ -82,7 +82,7 @@
             this.btnStatus.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(225, 234, 234);
             this.btnStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnStatus.Image = (System.Drawing.Image)resources.GetObject("icon.status"); // 24px PNG in Resources
+            this.btnStatus.Image = (System.Drawing.Image)resources.GetObject("icon.status");
             this.btnStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStatus.Location = new System.Drawing.Point(0, 144);
             this.btnStatus.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
@@ -94,7 +94,7 @@
             this.btnStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnStatus.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnStatus.UseVisualStyleBackColor = false;
-            this.btnStatus.Enabled = true; // enabled as per your latest screenshot
+            this.btnStatus.Enabled = false;
             // 
             // btnEvents
             // 
@@ -116,7 +116,7 @@
             this.btnEvents.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnEvents.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnEvents.UseVisualStyleBackColor = false;
-            this.btnEvents.Enabled = true; // enabled in your latest UI
+            this.btnEvents.Enabled = false;
             // 
             // btnReport
             // 
@@ -225,7 +225,7 @@
             this.lblCardBody.Name = "lblCardBody";
             this.lblCardBody.Size = new System.Drawing.Size(642, 17);
             this.lblCardBody.TabIndex = 1;
-            this.lblCardBody.Text = "Provide location, pick a category, and describe the issue (≥ 20 words). Attach im" +
+            this.lblCardBody.Text = "Provide location, pick a category, and describe the issue. Attach im" +
     "ages/PDFs if needed.";
             // 
             // lblCardTitle
