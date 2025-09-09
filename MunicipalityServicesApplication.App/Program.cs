@@ -1,16 +1,25 @@
-namespace MunicipalityServicesApplication.App;
+using System;
+using System.IO;
+using System.Windows.Forms;
+using MunicipalityServicesApplication.Infrastructure;
 
-static class Program
+namespace MunicipalityServicesApplication.App
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
-    [STAThread]
-    static void Main()
+    internal static class Program
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
-        ApplicationConfiguration.Initialize();
-        Application.Run(new Form1());
-    }    
+        [STAThread]
+        static void Main()
+        {
+            ApplicationConfiguration.Initialize();
+
+            var dataDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MunicipalityServicesAppData_Jared");
+
+            var repo = new FlatFileRepository(dataDir);
+            var store = new IssueStore(repo);
+
+            Application.Run(new DashboardForm(store, repo));
+        }
+    }
 }
