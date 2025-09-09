@@ -19,7 +19,7 @@ namespace MunicipalityServicesApplication.App
             var repo = new FlatFileRepository(dataDir);
             var store = new IssueStore(repo);
 
-            Application.Run(new DashboardForm(store, repo));
+            Application.Run(new DashboardForm());
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using MunicipalityServicesApplication.Infrastructure;
 
@@ -7,45 +7,35 @@ namespace MunicipalityServicesApplication.App
 {
     public partial class DashboardForm : Form
     {
-        private readonly IssueStore _store;
+        // Keep one instance of the persistence services for the app lifetime
         private readonly FlatFileRepository _repo;
+        private readonly IssueStore _store;
 
-        public DashboardForm(IssueStore store, FlatFileRepository repo)
+        public DashboardForm()
         {
-            _store = store;
-            _repo = repo;
-
             InitializeComponent();
-            BuildUi();
+
+            // Prepare a data folder under Documents
+            var dataDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MunicipalityServicesAppData_Jared");
+
+            _repo = new FlatFileRepository(dataDir);
+            _store = new IssueStore(_repo);
         }
 
-        private void BuildUi()
+        // Sidebar button: "Report an Issue"
+        private void btnReport_Click(object sender, EventArgs e)
         {
-            Text = "Municipality Application — Dashboard";
-            Width = 960; Height = 600; BackColor = Color.White;
+            using var report = new IssueReportForm(_store, _repo);
+            report.ShowDialog(this);
+        }
 
-            var header = new Label
-            {
-                Text = "Municipality Application",
-                Font = new Font("Segoe UI", 22, FontStyle.Bold),
-                AutoSize = true,
-                Location = new Point(24, 20)
-            };
-            Controls.Add(header);
-
-            var btnReport = new Button
-            {
-                Text = "Report an Issue",
-                Location = new Point(24, 100),
-                Width = 200,
-                Height = 50
-            };
-            btnReport.Click += (_, __) =>
-            {
-                using var form = new IssueReportForm(_store, _repo);
-                form.ShowDialog(this);
-            };
-            Controls.Add(btnReport);
+        // Card button: "Open Form"
+        private void btnOpenForm_Click(object sender, EventArgs e)
+        {
+            using var report = new IssueReportForm(_store, _repo);
+            report.ShowDialog(this);
         }
     }
 }
