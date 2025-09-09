@@ -12,14 +12,23 @@ namespace MunicipalityServicesApplication.App
         {
             ApplicationConfiguration.Initialize();
 
-            var dataDir = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "MunicipalityServicesAppData_Jared");
+            // Define a folder for storage (e.g., AppData folder or local project directory)
+            string storagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
 
-            var repo = new FlatFileRepository(dataDir);
+            // Ensure the folder exists
+            if (!Directory.Exists(storagePath))
+            {
+                Directory.CreateDirectory(storagePath);
+            }
+
+            // Create repository with storage path
+            var repo = new FlatFileRepository(storagePath);
+
+            // Pass repository into IssueStore
             var store = new IssueStore(repo);
 
-            Application.Run(new DashboardForm());
+            // Run dashboard with dependencies
+            Application.Run(new DashboardForm(store, repo));
         }
     }
 }

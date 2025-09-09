@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Drawing;
 using System.Windows.Forms;
 using MunicipalityServicesApplication.Infrastructure;
 
@@ -7,35 +7,67 @@ namespace MunicipalityServicesApplication.App
 {
     public partial class DashboardForm : Form
     {
-        // Keep one instance of the persistence services for the app lifetime
+        private readonly IssueStore _issueStore;
         private readonly FlatFileRepository _repo;
-        private readonly IssueStore _store;
 
-        public DashboardForm()
+        public DashboardForm(IssueStore store, FlatFileRepository repo)
         {
             InitializeComponent();
 
-            // Prepare a data folder under Documents
-            var dataDir = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "MunicipalityServicesAppData_Jared");
+            _issueStore = store;
+            _repo = repo;
 
-            _repo = new FlatFileRepository(dataDir);
-            _store = new IssueStore(_repo);
+            ApplyTheme();
+            UpdateNavButtonWidths();
         }
 
-        // Sidebar button: "Report an Issue"
-        private void btnReport_Click(object sender, EventArgs e)
+
+        private void ApplyTheme()
         {
-            using var report = new IssueReportForm(_store, _repo);
-            report.ShowDialog(this);
+            // Brand color
+            var brand = Color.FromArgb(0, 121, 118);
+            lblTitle.ForeColor = brand;
+            lblBrand.ForeColor = brand;
+
+            // Hover/pressed styles for the primary nav button
+            btnReport.MouseEnter += (_, __) => btnReport.BackColor = Color.FromArgb(246, 251, 251);
+            btnReport.MouseLeave += (_, __) => btnReport.BackColor = Color.White;
+
+            // Uniform text alignment
+            btnReport.TextAlign = ContentAlignment.MiddleCenter;
+            btnEvents.TextAlign = ContentAlignment.MiddleCenter;
+            btnStatus.TextAlign = ContentAlignment.MiddleCenter;
         }
 
-        // Card button: "Open Form"
-        private void btnOpenForm_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Opens the Issue Report form from the card button.
+        /// </summary>
+        private void btnOpenForm_Click(object? sender, EventArgs e) => OpenIssueForm();
+
+        /// <summary>
+        /// Opens the Issue Report form from the left nav button.
+        /// </summary>
+        private void btnReport_Click(object? sender, EventArgs e) => OpenIssueForm();
+
+        private void OpenIssueForm()
         {
-            using var report = new IssueReportForm(_store, _repo);
-            report.ShowDialog(this);
+            using var f = new IssueReportForm(_issueStore, _repo);
+            f.StartPosition = FormStartPosition.CenterParent;
+            f.ShowDialog(this);
+        }
+
+        /// <summary>
+        /// Keep nav buttons responsive when window resizes/maximizes.
+        /// </summary>
+        private void DashboardForm_Resize(object? sender, EventArgs e) => UpdateNavButtonWidths();
+
+        private void UpdateNavButtonWidths()
+        {
+            // Make each nav button span the full width of the single column
+            int w = tableNav.ClientSize.Width;
+            btnReport.Width = w;
+            btnEvents.Width = w;
+            btnStatus.Width = w;
         }
     }
 }
