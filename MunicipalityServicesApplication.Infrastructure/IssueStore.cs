@@ -4,6 +4,9 @@ using MunicipalityServicesApplication.Domain;
 
 namespace MunicipalityServicesApplication.Infrastructure
 {
+    /// <summary>
+    /// In-memory store backed by a custom ForwardList that mirrors writes to the flat-file repository.
+    /// </summary>
     public sealed class IssueStore
     {
         private readonly ForwardList<Issue> _issues = new();

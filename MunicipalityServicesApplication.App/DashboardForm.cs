@@ -5,6 +5,9 @@ using MunicipalityServicesApplication.Infrastructure;
 
 namespace MunicipalityServicesApplication.App
 {
+    /// <summary>
+    /// Main dashboard with a branded sidebar and a hero card, acting as the starting point for Task 2 actions.
+    /// </summary>
     public partial class DashboardForm : Form
     {
         private readonly IssueStore _issueStore;
@@ -49,6 +52,9 @@ namespace MunicipalityServicesApplication.App
         /// </summary>
         private void btnReport_Click(object? sender, EventArgs e) => OpenIssueForm();
 
+        /// <summary>
+        /// Opens the Issue Report form
+        /// </summary>
         private void OpenIssueForm()
         {
             using var f = new IssueReportForm(_issueStore, _repo);

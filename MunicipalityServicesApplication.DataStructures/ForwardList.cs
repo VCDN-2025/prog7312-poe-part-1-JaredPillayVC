@@ -1,5 +1,8 @@
 ﻿namespace MunicipalityServicesApplication.DataStructures
 {
+    /// <summary>
+    /// A minimal singly linked list used as the core storage structure to satisfy the custom data structure requirement.
+    /// </summary>
     public sealed class ForwardList<T>
     {
         private sealed class Node
@@ -16,6 +19,9 @@
         public int Count => _count;
         public bool IsEmpty => _count == 0;
 
+        /// <summary>
+        /// Appends an item to the end of the list in O(1).
+        /// </summary>
         public void AddLast(T item)
         {
             var n = new Node(item);
@@ -24,6 +30,9 @@
             _count++;
         }
 
+        /// <summary>
+        /// Iterates all items without exposing arrays or built-in collections.
+        /// </summary>
         public void ForEach(Action<T> action)
         {
             var n = _head;

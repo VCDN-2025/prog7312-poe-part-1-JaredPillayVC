@@ -5,6 +5,9 @@ using MunicipalityServicesApplication.Domain;
 
 namespace MunicipalityServicesApplication.Infrastructure
 {
+    /// <summary>
+    /// Handles flat-file persistence of issues and attachments under a configured root folder.
+    /// </summary>
     public sealed class FlatFileRepository
     {
         private readonly string _root;
@@ -17,6 +20,9 @@ namespace MunicipalityServicesApplication.Infrastructure
             Directory.CreateDirectory(Path.Combine(_root, "attachments"));
         }
 
+        /// <summary>
+        /// Saves an issue to disk as a simple text record and returns the file path.
+        /// </summary>
         public string SaveIssue(Issue issue)
         {
             var path = Path.Combine(_root, "issues", issue.TicketId + ".txt");
@@ -39,6 +45,9 @@ namespace MunicipalityServicesApplication.Infrastructure
             return path;
         }
 
+        /// <summary>
+        /// Copies an attachment into the attachments folder and returns the stored path.
+        /// </summary>
         public string StoreAttachment(string sourcePath)
         {
             var fileName = Path.GetFileName(sourcePath);

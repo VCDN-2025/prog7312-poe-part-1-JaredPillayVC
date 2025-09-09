@@ -18,6 +18,9 @@ namespace MunicipalityServicesApplication.App
 
         private readonly ForwardList<Domain.Attachment> _attachments = new();
 
+        /// <summary>
+        /// Issue Report Form that validates user input, manages attachments with a custom ForwardList, and persists issues.
+        /// </summary>
         public IssueReportForm(IssueStore store, FlatFileRepository repo)
         {
             _store = store;
@@ -37,6 +40,9 @@ namespace MunicipalityServicesApplication.App
             btnSubmit.Click += BtnSubmit_Click;
         }
 
+        /// <summary>
+        /// Adds a validated attachment and lists it in the UI.
+        /// </summary>
         private void BtnAddAttachment_Click(object? sender, EventArgs e)
         {
             using var dlg = new OpenFileDialog
@@ -61,6 +67,9 @@ namespace MunicipalityServicesApplication.App
             lstAttachments.Items.Add(Path.GetFileName(dlg.FileName));
         }
 
+        /// <summary>
+        /// Validates fields and updates the progress indicator to guide completion.
+        /// </summary>
         private void ValidateAndProgress(object? sender, EventArgs e)
         {
             int progressValue = 0;
@@ -80,6 +89,9 @@ namespace MunicipalityServicesApplication.App
             lblProgress.Text = $"{progress.Value}% complete";
         }
 
+        /// <summary>
+        /// Finalizes validation, generates a ticket id, persists the issue, and shows success feedback.
+        /// </summary>
         private void BtnSubmit_Click(object? sender, EventArgs e)
         {
             // Validate all

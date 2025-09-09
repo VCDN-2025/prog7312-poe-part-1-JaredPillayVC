@@ -11,6 +11,9 @@ namespace MunicipalityServicesApplication.Domain
         public DateTime CreatedUtc { get; }
         public ForwardList<Attachment> Attachments { get; }
 
+        /// <summary>
+        /// A persisted municipal service issue with ticket id, details, and a custom list of attachments.
+        /// </summary>
         public Issue(string ticketId, string location, IssueCategory category, string description, DateTime createdUtc, ForwardList<Attachment> attachments)
         {
             TicketId = ticketId;

@@ -2,8 +2,14 @@
 
 namespace MunicipalityServicesApplication.Services
 {
+    /// <summary>
+    /// Centralized validation helpers for inputs (location, category, description, attachment).
+    /// </summary>
     public static class InputValidator
     {
+        /// <summary>
+        /// Validates location text for presence and length limits.
+        /// </summary>
         public static (bool ok, string error) Location(string value)
         {
             if (string.IsNullOrWhiteSpace(value)) return (false, "Location is required.");
@@ -12,6 +18,9 @@ namespace MunicipalityServicesApplication.Services
             return (true, "");
         }
 
+        /// <summary>
+        /// Ensures description contains at least the minimum number of words.
+        /// </summary>
         public static (bool ok, string error) Description(string value)
         {
             if (string.IsNullOrWhiteSpace(value)) return (false, "Description is required.");
@@ -20,6 +29,9 @@ namespace MunicipalityServicesApplication.Services
             return (true, "");
         }
 
+        /// <summary>
+        /// Checks attachment extension and size against allowed constraints.
+        /// </summary>
         public static (bool ok, string error) Attachment(string path, long maxBytes = 10 * 1024 * 1024)
         {
             var allowed = new[] { ".jpg", ".jpeg", ".png", ".heic", ".pdf" };
