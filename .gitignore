@@ -32,3 +32,6 @@ project.nuget.cache
 *.log
 *.DS_Store
 Thumbs.db
+
+# Ignore data folder in project root
+Data/

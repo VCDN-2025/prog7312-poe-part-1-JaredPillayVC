@@ -12,8 +12,9 @@ namespace MunicipalityServicesApplication.App
         {
             ApplicationConfiguration.Initialize();
 
-            // Define a folder for storage (e.g., AppData folder or local project directory)
-            string storagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+            // Use the project root directory for storage
+            string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", ".."));
+            string storagePath = Path.Combine(projectRoot, "Data");
 
             // Ensure the folder exists
             if (!Directory.Exists(storagePath))
