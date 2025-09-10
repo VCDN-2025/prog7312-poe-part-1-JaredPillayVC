@@ -25,6 +25,6 @@ namespace MunicipalityServicesApplication.Infrastructure
 
         public string StoreAttachment(string path) => _repo.StoreAttachment(path);
 
-        public void ForEach(Action<Issue> action) => _issues.ForEach(action);
+        public ForwardList<Issue> GetAll() => _issues;
     }
 }
