@@ -13,7 +13,7 @@ In the video I demonstrate:
 - Navigating with the sidebar
 - Submitting a new issue with validation 
 - Adding attachments
-- Ciewing the saved issue in the _data_ folder
+- Viewing the saved issue in the _data_ folder
 
 ## ✅ Features
 - **Professional UI**
