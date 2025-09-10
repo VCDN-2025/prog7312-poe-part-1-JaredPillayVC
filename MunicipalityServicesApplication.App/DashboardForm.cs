@@ -17,6 +17,8 @@ namespace MunicipalityServicesApplication.App
         {
             InitializeComponent();
 
+            this.WindowState = FormWindowState.Maximized;
+
             _issueStore = store;
             _repo = repo;
 

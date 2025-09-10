@@ -27,6 +27,7 @@ namespace MunicipalityServicesApplication.App
         public IssueReportForm(IssueStore store, FlatFileRepository repo)
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
             _store = store;
             _repo = repo;
             _geo = new GeoLookupClient(new HttpClient(), _geoCache);
