@@ -22,6 +22,9 @@ namespace MunicipalityServicesApplication.App
         private System.Windows.Forms.Label lblGeoStatus;
         private System.Windows.Forms.Label lblNormalized;
 
+        // Completion Progress
+        private System.Windows.Forms.ProgressBar progressCompletion;
+
         private System.Windows.Forms.ErrorProvider errorProvider1;
 
         /// <summary>Clean up any resources being used.</summary>
@@ -53,6 +56,7 @@ namespace MunicipalityServicesApplication.App
             progressGeo = new System.Windows.Forms.ProgressBar();
             lblGeoStatus = new System.Windows.Forms.Label();
             lblNormalized = new System.Windows.Forms.Label();
+            progressCompletion = new System.Windows.Forms.ProgressBar();
 
             errorProvider1 = new System.Windows.Forms.ErrorProvider(components);
 
@@ -136,6 +140,11 @@ namespace MunicipalityServicesApplication.App
             btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
 
+            // Completion Progress
+            progressCompletion.Location = new System.Drawing.Point(24, 460);
+            progressCompletion.Size = new System.Drawing.Size(846, 23);
+            progressCompletion.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+
             // ErrorProvider
             errorProvider1.ContainerControl = this;
 
@@ -155,6 +164,7 @@ namespace MunicipalityServicesApplication.App
             this.Controls.Add(lstAttachments);
             this.Controls.Add(btnAddAttachment);
             this.Controls.Add(btnSubmit);
+            this.Controls.Add(progressCompletion);
 
             ((System.ComponentModel.ISupportInitialize)(errorProvider1)).EndInit();
             this.ResumeLayout(false);

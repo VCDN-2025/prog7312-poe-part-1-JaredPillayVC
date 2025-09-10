@@ -31,11 +31,42 @@ namespace MunicipalityServicesApplication.App
             _repo = repo;
             _geo = new GeoLookupClient(new HttpClient(), _geoCache);
 
-            // init category list
             cboCategory.DataSource = Enum.GetNames(typeof(IssueCategory));
+            cboCategory.SelectedItem = null;
+            cboCategory.Text = "Select a category...";
+            progressGeo.Visible = true;
 
-            // debounce address checks
-            txtLocation.TextChanged += (_, __) => _debounce.Run(async () => await CheckAddressAsync(), 400);
+            txtLocation.TextChanged += (_, __) =>
+            {
+                _debounce.Run(async () => await CheckAddressAsync(), 400);
+                UpdateCompletionProgress();
+            };
+            cboCategory.SelectedIndexChanged += (_, __) => UpdateCompletionProgress();
+            rtbDescription.TextChanged += (_, __) => UpdateCompletionProgress();
+
+            UpdateCompletionProgress();
+        }
+
+        private void UpdateCompletionProgress()
+        {
+            int progress = 0;
+            if (!string.IsNullOrWhiteSpace(txtLocation.Text) && txtLocation.Text.Trim().Length >= 5)
+            {
+                progress += 25;
+            }
+            if (cboCategory.SelectedItem != null)
+            {
+                progress += 25;
+            }
+            if (!string.IsNullOrWhiteSpace(rtbDescription.Text) && rtbDescription.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length >= 20)
+            {
+                progress += 25;
+            }
+            if (_attachments.Count > 0)
+            {
+                progress += 25;
+            }
+            progressCompletion.Value = Math.Min(100, progress);
         }
 
         private async Task CheckAddressAsync()
@@ -98,6 +129,7 @@ namespace MunicipalityServicesApplication.App
             var stored = _repo.StoreAttachment(dlg.FileName);
             _attachments.AddLast(new Attachment(dlg.FileName, stored, fi.Length));
             lstAttachments.Items.Add(Path.GetFileName(dlg.FileName));
+            UpdateCompletionProgress();
         }
 
         private bool ValidateForm()
