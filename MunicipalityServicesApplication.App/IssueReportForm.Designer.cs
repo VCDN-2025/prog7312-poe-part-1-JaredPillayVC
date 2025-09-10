@@ -127,6 +127,7 @@ namespace MunicipalityServicesApplication.App
             rtbDescription.Size = new System.Drawing.Size(520, 140);
 
             // Attachments
+            lblAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             lblAttachments.AutoSize = true;
             lblAttachments.Location = new System.Drawing.Point(570, 70);
             lblAttachments.Text = "Attachments*";

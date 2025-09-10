@@ -45,7 +45,50 @@ namespace MunicipalityServicesApplication.App
             cboCategory.SelectedIndexChanged += (_, __) => UpdateCompletionProgress();
             rtbDescription.TextChanged += (_, __) => UpdateCompletionProgress();
 
+            txtLocation.Validating += new System.ComponentModel.CancelEventHandler(txtLocation_Validating);
+            cboCategory.Validating += new System.ComponentModel.CancelEventHandler(cboCategory_Validating);
+            rtbDescription.Validating += new System.ComponentModel.CancelEventHandler(rtbDescription_Validating);
+
             UpdateCompletionProgress();
+        }
+
+        private void txtLocation_Validating(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var (ok, message) = FieldRules.RequireLocation(txtLocation.Text, _summary);
+            if (!ok)
+            {
+                errorProvider1.SetError(txtLocation, message);
+            }
+            else
+            {
+                errorProvider1.SetError(txtLocation, "");
+            }
+        }
+
+        private void cboCategory_Validating(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var (ok, message) = FieldRules.RequireCategory(cboCategory.SelectedItem, _summary);
+            if (!ok)
+            {
+                errorProvider1.SetError(cboCategory, message);
+            }
+            else
+            {
+                errorProvider1.SetError(cboCategory, "");
+            }
+        }
+
+        private void rtbDescription_Validating(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var (ok, message) = FieldRules.DescriptionMinWords(rtbDescription.Text, 5, _summary);
+            if (!ok)
+            {
+                errorProvider1.SetError(rtbDescription, message);
+            }
+            else
+            {
+                errorProvider1.SetError(rtbDescription, "");
+            }
         }
 
         private void lblNormalized_Click(object? sender, EventArgs e)
