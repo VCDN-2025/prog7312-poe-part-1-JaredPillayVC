@@ -48,6 +48,12 @@ namespace MunicipalityServicesApplication.Services.Validation
 
         public static (bool ok, string message) CheckAttachments(ForwardList<Attachment> attachments, ValidationSummary sum)
         {
+            if (attachments.Count == 0)
+            {
+                sum.Add(null!, "At least one attachment is required.");
+                return (false, "At least one attachment is required.");
+            }
+
             // Validate extensions + size; ForwardList only
             bool bad = false;
             attachments.ForEach(a =>

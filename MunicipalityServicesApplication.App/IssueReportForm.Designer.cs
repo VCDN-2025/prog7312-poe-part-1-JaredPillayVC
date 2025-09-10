@@ -129,7 +129,7 @@ namespace MunicipalityServicesApplication.App
             // Attachments
             lblAttachments.AutoSize = true;
             lblAttachments.Location = new System.Drawing.Point(570, 70);
-            lblAttachments.Text = "Attachments (optional)";
+            lblAttachments.Text = "Attachments*";
 
             // lstAttachments
             lstAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
