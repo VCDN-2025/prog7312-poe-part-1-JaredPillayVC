@@ -6,7 +6,7 @@ The application was designed with a clean UI, proper validation, and custom-buil
 
 ## 🎥 Demo Video
 A video demonstration of the application running will be provided here: 
-**YouTube Link:** _to be added_
+https://youtu.be/HINthr_KEJ8
 
 In the video I demonstrate: 
 - Opening the dashboard
