@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MunicipalityServicesApplication.Domain\MunicipalityServicesApplication.Domain.csproj" />
+    <ProjectReference Include="..\MunicipalityServicesApplication.DataStructures\MunicipalityServicesApplication.DataStructures.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -9,5 +10,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
+  </ItemGroup>
 
 </Project>

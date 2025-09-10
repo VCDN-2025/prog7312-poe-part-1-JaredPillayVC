@@ -1,13 +1,14 @@
-﻿using MunicipalityServicesApplication.DataStructures;
-using MunicipalityServicesApplication.Domain;
-using MunicipalityServicesApplication.Infrastructure;
-using MunicipalityServicesApplication.Services;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using MunicipalityServicesApplication.DataStructures;
+using MunicipalityServicesApplication.Domain;
+using MunicipalityServicesApplication.Infrastructure;
+using MunicipalityServicesApplication.Services.Geo;
+using MunicipalityServicesApplication.Services.Validation;
 
 namespace MunicipalityServicesApplication.App
 {
@@ -16,109 +17,133 @@ namespace MunicipalityServicesApplication.App
         private readonly IssueStore _store;
         private readonly FlatFileRepository _repo;
 
-        private readonly ForwardList<Domain.Attachment> _attachments = new();
+        private readonly Debounce _debounce = new();
+        private readonly GeoCache _geoCache = new(20);
+        private readonly GeoLookupClient _geo; // created in ctor with shared HttpClient
+        private readonly ValidationSummary _summary = new();
 
-        /// <summary>
-        /// Issue Report Form that validates user input, manages attachments with a custom ForwardList, and persists issues.
-        /// </summary>
+        private readonly ForwardList<Attachment> _attachments = new();
+
         public IssueReportForm(IssueStore store, FlatFileRepository repo)
         {
+            InitializeComponent();
             _store = store;
             _repo = repo;
+            _geo = new GeoLookupClient(new HttpClient(), _geoCache);
 
-            InitializeComponent();
+            // init category list
+            cboCategory.DataSource = Enum.GetNames(typeof(IssueCategory));
 
-            // Populate categories
-            cboCategory.Items.AddRange(Enum.GetNames(typeof(IssueCategory)));
-
-            // Wire events
-            txtLocation.TextChanged += ValidateAndProgress;
-            rtbDescription.TextChanged += ValidateAndProgress;
-            cboCategory.SelectedIndexChanged += ValidateAndProgress;
-
-            btnAddAttachment.Click += BtnAddAttachment_Click;
-            btnSubmit.Click += BtnSubmit_Click;
+            // debounce address checks
+            txtLocation.TextChanged += (_, __) => _debounce.Run(async () => await CheckAddressAsync(), 400);
         }
 
-        /// <summary>
-        /// Adds a validated attachment and lists it in the UI.
-        /// </summary>
-        private void BtnAddAttachment_Click(object? sender, EventArgs e)
+        private async Task CheckAddressAsync()
+        {
+            var text = txtLocation.Text.Trim();
+
+            if (text.Length < 5)
+            {
+                progressGeo.Style = ProgressBarStyle.Blocks;
+                progressGeo.Value = 0;
+                lblGeoStatus.ForeColor = Color.DimGray;
+                lblGeoStatus.Text = "Enter a more specific location…";
+                lblNormalized.Text = "";
+                return;
+            }
+
+            try
+            {
+                progressGeo.Style = ProgressBarStyle.Marquee;
+                lblGeoStatus.ForeColor = Color.DimGray;
+                lblGeoStatus.Text = "Validating address…";
+
+                var place = await _geo.SearchAsync(text);
+
+                progressGeo.Style = ProgressBarStyle.Blocks;
+                progressGeo.Value = 0;
+
+                if (place == null)
+                {
+                    lblGeoStatus.ForeColor = Color.Firebrick;
+                    lblGeoStatus.Text = "Address not recognised.";
+                    lblNormalized.Text = "";
+                    return;
+                }
+
+                lblGeoStatus.ForeColor = Color.SeaGreen;
+                lblGeoStatus.Text = "Address recognised";
+                lblNormalized.Text = place.display_name ?? "";
+            }
+            catch
+            {
+                progressGeo.Style = ProgressBarStyle.Blocks;
+                progressGeo.Value = 0;
+                lblGeoStatus.ForeColor = Color.Firebrick;
+                lblGeoStatus.Text = "Validation service unavailable.";
+                lblNormalized.Text = "";
+            }
+        }
+
+        private void btnAddAttachment_Click(object? sender, EventArgs e)
         {
             using var dlg = new OpenFileDialog
             {
                 Filter = "Images/PDF|*.jpg;*.jpeg;*.png;*.heic;*.pdf",
                 Multiselect = false
             };
+            if (dlg.ShowDialog(this) != DialogResult.OK) return;
 
-            if (dlg.ShowDialog() != DialogResult.OK) return;
-
-            var check = InputValidator.Attachment(dlg.FileName);
-            if (!check.ok)
-            {
-                MessageBox.Show(check.error, "Attachment", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string stored = _repo.StoreAttachment(dlg.FileName);
             var fi = new FileInfo(dlg.FileName);
-
-            _attachments.AddLast(new Domain.Attachment(dlg.FileName, stored, fi.Length));
+            var stored = _repo.StoreAttachment(dlg.FileName);
+            _attachments.AddLast(new Attachment(dlg.FileName, stored, fi.Length));
             lstAttachments.Items.Add(Path.GetFileName(dlg.FileName));
         }
 
-        /// <summary>
-        /// Validates fields and updates the progress indicator to guide completion.
-        /// </summary>
-        private void ValidateAndProgress(object? sender, EventArgs e)
+        private bool ValidateForm()
         {
-            int progressValue = 0;
+            errorProvider1.Clear();
+            _summary.Clear();
 
-            // Location
-            var loc = InputValidator.Location(txtLocation.Text);
-            if (loc.ok) progressValue += 33;
+            var locOk = FieldRules.RequireLocation(txtLocation.Text, _summary);
+            if (!locOk.ok) errorProvider1.SetError(txtLocation, locOk.message);
 
-            // Category
-            if (cboCategory.SelectedIndex >= 0) progressValue += 33;
+            var catOk = FieldRules.RequireCategory(cboCategory.SelectedItem, _summary);
+            if (!catOk.ok) errorProvider1.SetError(cboCategory, catOk.message);
 
-            // Description
-            var des = InputValidator.Description(rtbDescription.Text);
-            if (des.ok) progressValue += 34;
+            var descOk = FieldRules.DescriptionMinWords(rtbDescription.Text, 20, _summary);
+            if (!descOk.ok) errorProvider1.SetError(rtbDescription, descOk.message);
 
-            progress.Value = Math.Max(0, Math.Min(100, progressValue));
-            lblProgress.Text = $"{progress.Value}% complete";
+            var attOk = FieldRules.CheckAttachments(_attachments, _summary);
+            if (!attOk.ok) errorProvider1.SetError(lstAttachments, attOk.message);
+
+            return locOk.ok && catOk.ok && descOk.ok && attOk.ok;
         }
 
-        /// <summary>
-        /// Finalizes validation, generates a ticket id, persists the issue, and shows success feedback.
-        /// </summary>
-        private void BtnSubmit_Click(object? sender, EventArgs e)
+        private void btnSubmit_Click(object? sender, EventArgs e)
         {
-            // Validate all
-            var vLoc = InputValidator.Location(txtLocation.Text);
-            if (!vLoc.ok) { Warn(vLoc.error); return; }
+            if (!ValidateForm())
+            {
+                MessageBox.Show(this, "Please correct the highlighted fields.",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            if (cboCategory.SelectedIndex < 0) { Warn("Please select a category."); return; }
-            var category = (IssueCategory)Enum.Parse(typeof(IssueCategory), cboCategory.SelectedItem!.ToString()!);
-
-            var vDes = InputValidator.Description(rtbDescription.Text);
-            if (!vDes.ok) { Warn(vDes.error); return; }
-
-            // Create and store issue
-            var id = TicketIdFactory.NewId();
-            var issue = new Issue(id, txtLocation.Text.Trim(), category, rtbDescription.Text.Trim(),
-                                  DateTime.UtcNow, _attachments);
+            var id = $"MAPP-{DateTime.UtcNow:yyyyMMddHHmmssfff}-{Guid.NewGuid().ToString("N")[..6].ToUpper()}";
+            var issue = new Issue(id,
+                                  txtLocation.Text.Trim(),
+                                  Enum.Parse<IssueCategory>(cboCategory.SelectedItem!.ToString()!),
+                                  rtbDescription.Text.Trim(),
+                                  DateTime.UtcNow,
+                                  _attachments);
 
             _store.Add(issue);
-
             Clipboard.SetText(id);
-            MessageBox.Show($"Ticket created: {id}\n(Copied to clipboard)", "Success",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            MessageBox.Show(this, $"Issue submitted. Tracking number: {id}\n(Copied to clipboard)",
+                "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             Close();
         }
-
-        private static void Warn(string msg) =>
-            MessageBox.Show(msg, "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 }

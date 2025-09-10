@@ -1,12 +1,30 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-
 namespace MunicipalityServicesApplication.App
 {
     partial class IssueReportForm
     {
+        /// <summary>Required designer variable.</summary>
         private System.ComponentModel.IContainer components = null;
 
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblLocation;
+        private System.Windows.Forms.TextBox txtLocation;
+        private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.ComboBox cboCategory;
+        private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.RichTextBox rtbDescription;
+        private System.Windows.Forms.Label lblAttachments;
+        private System.Windows.Forms.ListBox lstAttachments;
+        private System.Windows.Forms.Button btnAddAttachment;
+        private System.Windows.Forms.Button btnSubmit;
+
+        // GEO UI
+        private System.Windows.Forms.ProgressBar progressGeo;
+        private System.Windows.Forms.Label lblGeoStatus;
+        private System.Windows.Forms.Label lblNormalized;
+
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+
+        /// <summary>Clean up any resources being used.</summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,139 +38,129 @@ namespace MunicipalityServicesApplication.App
         {
             components = new System.ComponentModel.Container();
 
-            // Header
-            panelHeader = new Panel();
-            panelHeader.Dock = DockStyle.Top;
-            panelHeader.Height = 48;
-            panelHeader.BackColor = ColorTranslator.FromHtml("#007A78");
-            panelHeader.Name = "panelHeader";
+            lblTitle = new System.Windows.Forms.Label();
+            lblLocation = new System.Windows.Forms.Label();
+            txtLocation = new System.Windows.Forms.TextBox();
+            lblCategory = new System.Windows.Forms.Label();
+            cboCategory = new System.Windows.Forms.ComboBox();
+            lblDescription = new System.Windows.Forms.Label();
+            rtbDescription = new System.Windows.Forms.RichTextBox();
+            lblAttachments = new System.Windows.Forms.Label();
+            lstAttachments = new System.Windows.Forms.ListBox();
+            btnAddAttachment = new System.Windows.Forms.Button();
+            btnSubmit = new System.Windows.Forms.Button();
 
-            lblHdrIcon = new Label();
-            lblHdrIcon.AutoSize = true;
-            lblHdrIcon.Font = new Font("Segoe MDL2 Assets", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblHdrIcon.ForeColor = Color.White;
-            lblHdrIcon.Location = new Point(14, 12);
-            lblHdrIcon.Text = "";
+            progressGeo = new System.Windows.Forms.ProgressBar();
+            lblGeoStatus = new System.Windows.Forms.Label();
+            lblNormalized = new System.Windows.Forms.Label();
 
-            lblHdrTitle = new Label();
-            lblHdrTitle.AutoSize = true;
-            lblHdrTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblHdrTitle.ForeColor = Color.White;
-            lblHdrTitle.Location = new Point(40, 14);
-            lblHdrTitle.Text = "Report an Issue";
+            errorProvider1 = new System.Windows.Forms.ErrorProvider(components);
 
-            panelHeader.Controls.Add(lblHdrIcon);
-            panelHeader.Controls.Add(lblHdrTitle);
-
-            // Left column
-            lblLocation = new Label();
-            lblLocation.AutoSize = true;
-            lblLocation.Location = new Point(24, 64);
-            lblLocation.Text = "Location*";
-
-            txtLocation = new TextBox();
-            txtLocation.Location = new Point(24, 84);
-            txtLocation.Size = new Size(520, 23);
-
-            lblCategory = new Label();
-            lblCategory.AutoSize = true;
-            lblCategory.Location = new Point(24, 120);
-            lblCategory.Text = "Category*";
-
-            cboCategory = new ComboBox();
-            cboCategory.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboCategory.Location = new Point(24, 140);
-            cboCategory.Size = new Size(240, 23);
-
-            lblDescription = new Label();
-            lblDescription.AutoSize = true;
-            lblDescription.Location = new Point(24, 176);
-            lblDescription.Text = "Description*";
-
-            rtbDescription = new RichTextBox();
-            rtbDescription.Location = new Point(24, 196);
-            rtbDescription.Size = new Size(520, 140);
-
-            // Right column
-            lblAttach = new Label();
-            lblAttach.AutoSize = true;
-            lblAttach.Location = new Point(560, 64);
-            lblAttach.Text = "Attachments (optional)";
-
-            lstAttachments = new ListBox();
-            lstAttachments.Location = new Point(560, 84);
-            lstAttachments.Size = new Size(240, 220);
-
-            btnAddAttachment = new Button();
-            btnAddAttachment.Location = new Point(560, 312);
-            btnAddAttachment.Size = new Size(240, 32);
-            btnAddAttachment.Text = "Add Attachment";
-
-            // Bottom
-            progress = new ProgressBar();
-            progress.Location = new Point(24, 350);
-            progress.Size = new Size(520, 16);
-            progress.Minimum = 0;
-            progress.Maximum = 100;
-            progress.Value = 0;
-
-            lblProgress = new Label();
-            lblProgress.AutoSize = true;
-            lblProgress.Location = new Point(24, 370);
-            lblProgress.Text = "0% complete";
-
-            btnSubmit = new Button();
-            btnSubmit.Location = new Point(24, 400);
-            btnSubmit.Size = new Size(140, 34);
-            btnSubmit.Text = "Submit";
-            btnSubmit.BackColor = ColorTranslator.FromHtml("#007A78");
-            btnSubmit.ForeColor = Color.White;
-            btnSubmit.FlatStyle = FlatStyle.Flat;
-            btnSubmit.FlatAppearance.BorderSize = 0;
+            ((System.ComponentModel.ISupportInitialize)(errorProvider1)).BeginInit();
+            SuspendLayout();
 
             // Form
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
-            ClientSize = new Size(840, 450);
-            Controls.Add(btnSubmit);
-            Controls.Add(lblProgress);
-            Controls.Add(progress);
-            Controls.Add(btnAddAttachment);
-            Controls.Add(lstAttachments);
-            Controls.Add(lblAttach);
-            Controls.Add(rtbDescription);
-            Controls.Add(lblDescription);
-            Controls.Add(cboCategory);
-            Controls.Add(lblCategory);
-            Controls.Add(txtLocation);
-            Controls.Add(lblLocation);
-            Controls.Add(panelHeader);
-            MinimumSize = new Size(860, 460);
-            Name = "IssueReportForm";
-            Text = "Report an Issue";
-            StartPosition = FormStartPosition.CenterParent;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Text = "Report an Issue";
+            this.ClientSize = new System.Drawing.Size(900, 520);
+            this.BackColor = System.Drawing.Color.White;
+
+            // Title
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            lblTitle.Location = new System.Drawing.Point(24, 18);
+            lblTitle.Text = "Report an Issue";
+
+            // Location
+            lblLocation.AutoSize = true;
+            lblLocation.Location = new System.Drawing.Point(24, 70);
+            lblLocation.Text = "Location*";
+
+            txtLocation.Location = new System.Drawing.Point(24, 90);
+            txtLocation.Size = new System.Drawing.Size(520, 23);
+            txtLocation.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+
+            // Geo progress
+            progressGeo.Location = new System.Drawing.Point(24, 118);
+            progressGeo.Size = new System.Drawing.Size(220, 8);
+            progressGeo.Style = System.Windows.Forms.ProgressBarStyle.Blocks;
+
+            // Geo status
+            lblGeoStatus.AutoSize = true;
+            lblGeoStatus.Location = new System.Drawing.Point(250, 114);
+            lblGeoStatus.Text = "Enter a more specific location…";
+            lblGeoStatus.ForeColor = System.Drawing.Color.DimGray;
+
+            // Normalized
+            lblNormalized.AutoSize = true;
+            lblNormalized.Location = new System.Drawing.Point(24, 134);
+            lblNormalized.ForeColor = System.Drawing.Color.Gray;
+
+            // Category
+            lblCategory.AutoSize = true;
+            lblCategory.Location = new System.Drawing.Point(24, 168);
+            lblCategory.Text = "Category*";
+
+            cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cboCategory.Location = new System.Drawing.Point(24, 188);
+            cboCategory.Size = new System.Drawing.Size(240, 23);
+
+            // Description
+            lblDescription.AutoSize = true;
+            lblDescription.Location = new System.Drawing.Point(24, 224);
+            lblDescription.Text = "Description* (≥ 20 words)";
+
+            rtbDescription.Location = new System.Drawing.Point(24, 244);
+            rtbDescription.Size = new System.Drawing.Size(520, 140);
+
+            // Attachments
+            lblAttachments.AutoSize = true;
+            lblAttachments.Location = new System.Drawing.Point(570, 70);
+            lblAttachments.Text = "Attachments (optional)";
+
+            lstAttachments.Location = new System.Drawing.Point(570, 90);
+            lstAttachments.Size = new System.Drawing.Size(300, 264);
+
+            btnAddAttachment.Location = new System.Drawing.Point(570, 360);
+            btnAddAttachment.Size = new System.Drawing.Size(300, 30);
+            btnAddAttachment.Text = "Add Attachment";
+            btnAddAttachment.Click += new System.EventHandler(this.btnAddAttachment_Click);
+
+            // Submit
+            btnSubmit.Location = new System.Drawing.Point(24, 408);
+            btnSubmit.Size = new System.Drawing.Size(140, 34);
+            btnSubmit.Text = "Submit";
+            btnSubmit.BackColor = System.Drawing.Color.Teal;
+            btnSubmit.ForeColor = System.Drawing.Color.White;
+            btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+
+            // ErrorProvider
+            errorProvider1.ContainerControl = this;
+
+            // Add Controls
+            this.Controls.Add(lblTitle);
+            this.Controls.Add(lblLocation);
+            this.Controls.Add(txtLocation);
+            this.Controls.Add(progressGeo);
+            this.Controls.Add(lblGeoStatus);
+            this.Controls.Add(lblNormalized);
+
+            this.Controls.Add(lblCategory);
+            this.Controls.Add(cboCategory);
+            this.Controls.Add(lblDescription);
+            this.Controls.Add(rtbDescription);
+            this.Controls.Add(lblAttachments);
+            this.Controls.Add(lstAttachments);
+            this.Controls.Add(btnAddAttachment);
+            this.Controls.Add(btnSubmit);
+
+            ((System.ComponentModel.ISupportInitialize)(errorProvider1)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
-
-        private Panel panelHeader;
-        private Label lblHdrIcon;
-        private Label lblHdrTitle;
-
-        private Label lblLocation;
-        public TextBox txtLocation;
-        private Label lblCategory;
-        public ComboBox cboCategory;
-        private Label lblDescription;
-        public RichTextBox rtbDescription;
-
-        private Label lblAttach;
-        public ListBox lstAttachments;
-        public Button btnAddAttachment;
-
-        public ProgressBar progress;
-        public Label lblProgress;
-        public Button btnSubmit;
     }
 }
