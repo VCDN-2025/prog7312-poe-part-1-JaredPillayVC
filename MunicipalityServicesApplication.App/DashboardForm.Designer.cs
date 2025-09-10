@@ -187,9 +187,9 @@
             // 
             // grpCard
             // 
-            this.grpCard.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpCard.BackColor = System.Drawing.Color.FromArgb(240, 252, 252);
+            this.grpCard.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.grpCard.Controls.Add(this.btnOpenForm);
             this.grpCard.Controls.Add(this.lblCardBody);
             this.grpCard.Controls.Add(this.lblCardTitle);

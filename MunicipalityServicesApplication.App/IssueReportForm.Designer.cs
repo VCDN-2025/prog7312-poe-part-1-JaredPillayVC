@@ -81,9 +81,11 @@ namespace MunicipalityServicesApplication.App
             lblLocation.Location = new System.Drawing.Point(24, 70);
             lblLocation.Text = "Location*";
 
+            // txtLocation
+            txtLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             txtLocation.Location = new System.Drawing.Point(24, 90);
             txtLocation.Size = new System.Drawing.Size(520, 23);
-            txtLocation.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 
             // Geo progress
             progressGeo.Location = new System.Drawing.Point(24, 118);
@@ -117,6 +119,10 @@ namespace MunicipalityServicesApplication.App
             lblDescription.Location = new System.Drawing.Point(24, 224);
             lblDescription.Text = "Description* (≥ 20 words)";
 
+            // rtbDescription
+            rtbDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             rtbDescription.Location = new System.Drawing.Point(24, 244);
             rtbDescription.Size = new System.Drawing.Size(520, 140);
 
@@ -125,15 +131,21 @@ namespace MunicipalityServicesApplication.App
             lblAttachments.Location = new System.Drawing.Point(570, 70);
             lblAttachments.Text = "Attachments (optional)";
 
+            // lstAttachments
+            lstAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             lstAttachments.Location = new System.Drawing.Point(570, 90);
             lstAttachments.Size = new System.Drawing.Size(300, 264);
 
+            // btnAddAttachment
+            btnAddAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             btnAddAttachment.Location = new System.Drawing.Point(570, 360);
             btnAddAttachment.Size = new System.Drawing.Size(300, 30);
             btnAddAttachment.Text = "Add Attachment";
             btnAddAttachment.Click += new System.EventHandler(this.btnAddAttachment_Click);
 
             // Submit
+            btnSubmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             btnSubmit.Location = new System.Drawing.Point(24, 408);
             btnSubmit.Size = new System.Drawing.Size(140, 34);
             btnSubmit.Text = "Submit";
@@ -143,9 +155,10 @@ namespace MunicipalityServicesApplication.App
             btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
 
             // Completion Progress
+            progressCompletion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             progressCompletion.Location = new System.Drawing.Point(24, 460);
             progressCompletion.Size = new System.Drawing.Size(846, 23);
-            progressCompletion.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 
             // ErrorProvider
             errorProvider1.ContainerControl = this;
