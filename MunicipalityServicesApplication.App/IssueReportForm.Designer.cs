@@ -111,11 +111,14 @@ namespace MunicipalityServicesApplication.App
             lblGeoStatus.ForeColor = System.Drawing.Color.DimGray;
 
             // Normalized
-            lblNormalized.AutoSize = true;
+            lblNormalized.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            lblNormalized.AutoSize = false;
             lblNormalized.Location = new System.Drawing.Point(24, 134);
             lblNormalized.ForeColor = System.Drawing.Color.Gray;
             lblNormalized.Cursor = System.Windows.Forms.Cursors.Hand;
             lblNormalized.Click += new System.EventHandler(this.lblNormalized_Click);
+            lblNormalized.Size = new System.Drawing.Size(520, 23);
 
             // Category
             lblCategory.AutoSize = true;

@@ -121,6 +121,7 @@ namespace MunicipalityServicesApplication.App
             if (!string.IsNullOrWhiteSpace(lblNormalized.Text))
             {
                 txtLocation.Text = lblNormalized.Text;
+                lblNormalized.Visible = false;
             }
         }
 
@@ -158,6 +159,7 @@ namespace MunicipalityServicesApplication.App
                 lblGeoStatus.ForeColor = Color.DimGray;
                 lblGeoStatus.Text = "Enter a more specific location…";
                 lblNormalized.Text = "";
+                lblNormalized.Visible = true;
                 return;
             }
 
@@ -166,6 +168,7 @@ namespace MunicipalityServicesApplication.App
                 progressGeo.Style = ProgressBarStyle.Marquee;
                 lblGeoStatus.ForeColor = Color.DimGray;
                 lblGeoStatus.Text = "Validating address…";
+                lblNormalized.Visible = true;
 
                 var place = await _geo.SearchAsync(text);
 
@@ -191,6 +194,7 @@ namespace MunicipalityServicesApplication.App
                 lblGeoStatus.ForeColor = Color.Firebrick;
                 lblGeoStatus.Text = "Validation service unavailable.";
                 lblNormalized.Text = "";
+                lblNormalized.Visible = true;
             }
         }
 
