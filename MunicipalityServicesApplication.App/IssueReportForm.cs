@@ -67,7 +67,7 @@ namespace MunicipalityServicesApplication.App
             {
                 progress += 25;
             }
-            if (!string.IsNullOrWhiteSpace(rtbDescription.Text) && rtbDescription.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length >= 20)
+            if (!string.IsNullOrWhiteSpace(rtbDescription.Text) && rtbDescription.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length >= 5)
             {
                 progress += 25;
             }
@@ -152,7 +152,7 @@ namespace MunicipalityServicesApplication.App
             var catOk = FieldRules.RequireCategory(cboCategory.SelectedItem, _summary);
             if (!catOk.ok) errorProvider1.SetError(cboCategory, catOk.message);
 
-            var descOk = FieldRules.DescriptionMinWords(rtbDescription.Text, 20, _summary);
+            var descOk = FieldRules.DescriptionMinWords(rtbDescription.Text, 5, _summary);
             if (!descOk.ok) errorProvider1.SetError(rtbDescription, descOk.message);
 
             var attOk = FieldRules.CheckAttachments(_attachments, _summary);

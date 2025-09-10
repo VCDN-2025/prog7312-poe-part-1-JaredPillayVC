@@ -117,7 +117,7 @@ namespace MunicipalityServicesApplication.App
             // Description
             lblDescription.AutoSize = true;
             lblDescription.Location = new System.Drawing.Point(24, 224);
-            lblDescription.Text = "Description* (≥ 20 words)";
+            lblDescription.Text = "Description* (≥ 5 words)";
 
             // rtbDescription
             rtbDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
