@@ -50,6 +50,31 @@ namespace MunicipalityServicesApplication.App
             rtbDescription.Validating += new System.ComponentModel.CancelEventHandler(rtbDescription_Validating);
 
             UpdateCompletionProgress();
+            UpdateQuickTip();
+        }
+
+        private void UpdateQuickTip()
+        {
+            if (string.IsNullOrWhiteSpace(txtLocation.Text) || txtLocation.Text.Trim().Length < 5)
+            {
+                lblQuickTip.Text = "Quick Tip: Start by entering a detailed location for the issue.";
+            }
+            else if (cboCategory.SelectedItem == null)
+            {
+                lblQuickTip.Text = "Quick Tip: Next, please select a category for the issue.";
+            }
+            else if (string.IsNullOrWhiteSpace(rtbDescription.Text) || rtbDescription.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length < 5)
+            {
+                lblQuickTip.Text = "Quick Tip: Now, provide a clear and detailed description (at least 5 words).";
+            }
+            else if (_attachments.Count == 0)
+            {
+                lblQuickTip.Text = "Quick Tip: Finally, add at least one attachment to support your report.";
+            }
+            else
+            {
+                lblQuickTip.Text = "Quick Tip: The form is complete! You can now click Submit.";
+            }
         }
 
         private void txtLocation_Validating(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -119,6 +144,7 @@ namespace MunicipalityServicesApplication.App
                 progress += 25;
             }
             progressCompletion.Value = Math.Min(100, progress);
+            UpdateQuickTip();
         }
 
         private async Task CheckAddressAsync()

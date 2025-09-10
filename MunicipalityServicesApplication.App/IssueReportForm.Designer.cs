@@ -6,6 +6,7 @@ namespace MunicipalityServicesApplication.App
         private System.ComponentModel.IContainer components = null;
 
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblQuickTip;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.TextBox txtLocation;
         private System.Windows.Forms.Label lblCategory;
@@ -42,6 +43,7 @@ namespace MunicipalityServicesApplication.App
             components = new System.ComponentModel.Container();
 
             lblTitle = new System.Windows.Forms.Label();
+            lblQuickTip = new System.Windows.Forms.Label();
             lblLocation = new System.Windows.Forms.Label();
             txtLocation = new System.Windows.Forms.TextBox();
             lblCategory = new System.Windows.Forms.Label();
@@ -75,6 +77,16 @@ namespace MunicipalityServicesApplication.App
             lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             lblTitle.Location = new System.Drawing.Point(24, 18);
             lblTitle.Text = "Report an Issue";
+
+            // Quick Tip
+            lblQuickTip.AutoSize = true;
+            lblQuickTip.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            lblQuickTip.ForeColor = System.Drawing.Color.DarkSlateGray;
+            lblQuickTip.Location = new System.Drawing.Point(26, 50);
+            lblQuickTip.Name = "lblQuickTip";
+            lblQuickTip.Size = new System.Drawing.Size(100, 15);
+            lblQuickTip.TabIndex = 99; // Set a high tab index
+            lblQuickTip.Text = "Quick Tip: ...";
 
             // Location
             lblLocation.AutoSize = true;
@@ -166,6 +178,7 @@ namespace MunicipalityServicesApplication.App
 
             // Add Controls
             this.Controls.Add(lblTitle);
+            this.Controls.Add(lblQuickTip);
             this.Controls.Add(lblLocation);
             this.Controls.Add(txtLocation);
             this.Controls.Add(progressGeo);
