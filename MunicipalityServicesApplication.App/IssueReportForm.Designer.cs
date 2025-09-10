@@ -100,6 +100,8 @@ namespace MunicipalityServicesApplication.App
             lblNormalized.AutoSize = true;
             lblNormalized.Location = new System.Drawing.Point(24, 134);
             lblNormalized.ForeColor = System.Drawing.Color.Gray;
+            lblNormalized.Cursor = System.Windows.Forms.Cursors.Hand;
+            lblNormalized.Click += new System.EventHandler(this.lblNormalized_Click);
 
             // Category
             lblCategory.AutoSize = true;

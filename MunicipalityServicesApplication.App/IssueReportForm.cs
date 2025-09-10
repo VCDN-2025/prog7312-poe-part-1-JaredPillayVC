@@ -47,6 +47,14 @@ namespace MunicipalityServicesApplication.App
             UpdateCompletionProgress();
         }
 
+        private void lblNormalized_Click(object? sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(lblNormalized.Text))
+            {
+                txtLocation.Text = lblNormalized.Text;
+            }
+        }
+
         private void UpdateCompletionProgress()
         {
             int progress = 0;
