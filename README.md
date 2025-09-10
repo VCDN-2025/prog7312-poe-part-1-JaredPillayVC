@@ -26,10 +26,10 @@ In the video I demonstrate:
     - This replaces built-in generic collections like `List<>` and arrays
 
 - **Validation Rules**
-    - **Location:** required minimum of 5 characters and maximum of 80 characters
-    - **Category:** required (selected from dropdown)
-    - **Description:** required minimum of 5 characters and maximum of 100.
-    - **Attachments:** optional, `.jpg`, `.jpeg`, `.png`, `.heic`, or `.pdf` and ≤ 10 MB  
+    - **Location:** Required, minimum of 5 characters. The location is validated against the OpenStreetMap Nominatim service.
+    - **Category:** Required (selected from dropdown).
+    - **Description:** Required, minimum of 5 words.
+    - **Attachments:** Required, at least one attachment. Allowed types are `.jpg`, `.jpeg`, `.png`, `.heic`, or `.pdf`, and each file must be ≤ 10 MB.
 
 - **Progress Feedback:**  
   - A progress bar updates as fields are validated, so users know when the form is complete.  
